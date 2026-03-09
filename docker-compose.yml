@@ -1,0 +1,62 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: tree_rag_qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: tree_rag_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_storage:/root/.ollama
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.app
+    container_name: tree_rag_app
+    env_file:
+      - .env
+    environment:
+      PYTHONPATH: /app/src
+      QDRANT_URL: http://qdrant:6333
+      OLLAMA_HOST: http://ollama:11434
+      DATA_DIR: /app/data
+    volumes:
+      - ./data:/app/data
+    ports:
+      - "8501:8501"
+    depends_on:
+      - qdrant
+      - ollama
+    restart: unless-stopped
+
+  indexer:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.app
+    env_file:
+      - .env
+    environment:
+      PYTHONPATH: /app/src
+      QDRANT_URL: http://qdrant:6333
+      DATA_DIR: /app/data
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - qdrant
+    command: python -m src.vector_rag.index_qdrant
+    profiles:
+      - tools
+
+volumes:
+  qdrant_storage:
+  ollama_storage:

@@ -1,0 +1,654 @@
+{
+  "doc_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid",
+  "source_path": "C:\\Users\\ssuji\\Downloads\\DS_2026_Lecture_8_Fault_Tolerance_Saeid.pdf",
+  "nodes": [
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n1",
+      "title": "Fault Tolerance in Distributed Systems Chapter 8",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n2",
+      "title": "Saeid Sheikhi",
+      "level": 2,
+      "content": "PhD candidate in Computer Science and Engineering Future Computing Group (FCG) University of Oulu\n\nFebruary 11, 2026",
+      "summary": "PhD candidate in Computer Science and Engineering Future Computing Group (FCG) University of Oulu February 11, 2026",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n3",
+      "title": "Lecture Outline",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n4",
+      "title": "Part I: Fundamentals",
+      "level": 2,
+      "content": "- 1 Introduction to Fault Tolerance\n- 2 Failure Models\n- 3 Redundancy &amp; Process Groups",
+      "summary": "- 1 Introduction to Fault Tolerance - 2 Failure Models - 3 Redundancy &amp; Process Groups",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n5",
+      "title": "Part II: Consensus",
+      "level": 2,
+      "content": "- 4 Consensus with Crash Failures\n- 5 Raft &amp; Paxos Algorithms\n- 6 Byzantine Fault Tolerance",
+      "summary": "- 4 Consensus with Crash Failures - 5 Raft &amp; Paxos Algorithms - 6 Byzantine Fault Tolerance",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n6",
+      "title": "Part III: Communication",
+      "level": 2,
+      "content": "- 7 Reliable Client-Server Communication\n- 8 Reliable Group Communication\n- 9 Atomic Multicast",
+      "summary": "- 7 Reliable Client-Server Communication - 8 Reliable Group Communication - 9 Atomic Multicast",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n7",
+      "title": "Part IV: Recovery",
+      "level": 2,
+      "content": "- 10 Distributed Commit (2PC)\n- 11 Checkpointing &amp; Recovery\n- 12 The CAP Theorem",
+      "summary": "- 10 Distributed Commit (2PC) - 11 Checkpointing &amp; Recovery - 12 The CAP Theorem",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n8",
+      "title": "The Challenge: Partial Failure",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n9",
+      "title": "What Makes Distributed Systems Different?",
+      "level": 2,
+      "content": "- Part of system fails while rest continues\n- Remaining part operates 'seemingly correctly'\n- System must automatically recover",
+      "summary": "- Part of system fails while rest continues - Remaining part operates 'seemingly correctly' - System must automatically recover",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n10",
+      "title": "Goal of Fault Tolerance:",
+      "level": 2,
+      "content": "- Continue operating during repairs\n- Mask failures from users\n- Provide dependable services\n- Key Insight: A distributed system is expected to be fault tolerant - failures are the norm, not the exception",
+      "summary": "- Continue operating during repairs - Mask failures from users - Provide dependable services - Key Insight: A distributed system is expected to be fault tolerant - failures are the norm, not the exception",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n11",
+      "title": "The Four Pillars of Dependability",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n12",
+      "title": "Reliability",
+      "level": 2,
+      "content": "System runs continuously without failure\n\n- Defined over a time interval\n- Different from availability!",
+      "summary": "System runs continuously without failure - Defined over a time interval - Different from availability!",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n13",
+      "title": "Safety",
+      "level": 2,
+      "content": "No catastrophic event when system fails\n\n- Critical for control systems\n- Nuclear plants, space systems",
+      "summary": "No catastrophic event when system fails - Critical for control systems - Nuclear plants, space systems",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n14",
+      "title": "Availability vs. Reliability: They're Different!",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n15",
+      "title": "High Availability, Low Reliability",
+      "level": 2,
+      "content": "System goes down for 1 random millisecond every hour\n\n- Availability: &gt; 99.9999%\n- But still unreliable !\n- Unpredictable failures\n\nThe two metrics are NOT the same, design for both!",
+      "summary": "System goes down for 1 random millisecond every hour - Availability: &gt; 99.9999% - But still unreliable ! - Unpredictable failures The two metrics are NOT the same, design for both!",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n16",
+      "title": "Fault → Error → Failure",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n17",
+      "title": "Terminology Chain:",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n18",
+      "title": "Example:",
+      "level": 2,
+      "content": "- Fault: Programming bug\n- Error: Bad code branch executed\n- Failure: Program crashes",
+      "summary": "- Fault: Programming bug - Error: Bad code branch executed - Failure: Program crashes",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n19",
+      "title": "Types of Faults",
+      "level": 2,
+      "content": "| Type | Icon | Description | Example |\n|----------------------|------------------------------------|---------------|--------------------------|\n| Transient | Occurs once, then disap- pears | Bird | through mi- crowave beam |\n| Intermittent | Appears, vanishes, pears | reap- | Loose connector |\n| Permanent | Continues until component replaced | | Burnt chip, software bug |\n\nTransient Easiest to handle (retry works)\n\nIntermittent Hardest to diagnose ('works when tested')\n\nPermanent Requires replacement (clear failure)",
+      "summary": "| Type | Icon | Description | Example | |----------------------|------------------------------------|---------------|--------------------------| | Transient | Occurs once, then disap- pears | Bird | through mi- crowave b...",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n20",
+      "title": "Failure Models - Taxonomy",
+      "level": 2,
+      "content": "| Type | Description | Severity |\n|----------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|\n| Crash failure Omission failure Receive omission Send omission Timing failure Response failure Value failure State-transition Arbitrary (Byzantine) | Halts, but correct until halt Fails to respond to requests Fails to receive messages Fails to send messages Response outside time interval Response is incorrect Wrong value returned Wrong flow of control Any response, any time | ○ Low ○ Low ○ ○ ○ Medium ○ Medium ○ ○ ○ High |",
+      "summary": "| Type | Description | Severity | |----------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------...",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n21",
+      "title": "Byzantine Failures: The Worst Case",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n22",
+      "title": "What Makes Byzantine Failures Dangerous?",
+      "level": 2,
+      "content": "- Server produces output it should never have\n- Output cannot be detected as incorrect\n- Named after Byzantine Empire intrigues",
+      "summary": "- Server produces output it should never have - Output cannot be detected as incorrect - Named after Byzantine Empire intrigues",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n23",
+      "title": "Key Challenge:",
+      "level": 2,
+      "content": "- Could be malicious OR buggy software\n- Cannot distinguish benign from malicious\n- Must assume the worst\n\nSame faulty server sends different values to different receivers!",
+      "summary": "- Could be malicious OR buggy software - Cannot distinguish benign from malicious - Must assume the worst Same faulty server sends different values to different receivers!",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n24",
+      "title": "Synchronous vs. Asynchronous Systems",
+      "level": 2,
+      "content": "| System | Characteristics | Failure Detection |\n|-----------------------|-------------------------------------------------|---------------------------------------------------|\n| Synchronous | Bounded process speeds & message delivery times | Can conclude crash if no re- sponse when expected |\n| Asynchronous | No timing assumptions | Cannot conclude crash - may just be slow |\n| Partially Synchronous | Usually synchronous, sometimes not | Most realistic model |\n\n'Most of the time it behaves as a synchronous system, yet there is no bound on the time that it behaves asynchronously.'",
+      "summary": "| System | Characteristics | Failure Detection | |-----------------------|-------------------------------------------------|---------------------------------------------------| | Synchronous | Bounded process speeds & me...",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n25",
+      "title": "Classification of Halting Failures",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n26",
+      "title": "From least to most severe:",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n27",
+      "title": "The Key Technique: Redundancy",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n28",
+      "title": "Three Types of Redundancy:",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n29",
+      "title": "Information Redundancy",
+      "level": 2,
+      "content": "Extra bits for recovery\n\n- Hamming codes\n- Error-correcting codes\n- Checksums",
+      "summary": "Extra bits for recovery - Hamming codes - Error-correcting codes - Checksums",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n30",
+      "title": "Physical Redundancy",
+      "level": 2,
+      "content": "Extra equipment/processes\n\n- Replicated servers\n- Backup systems\n- Process groups",
+      "summary": "Extra equipment/processes - Replicated servers - Backup systems - Process groups",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n31",
+      "title": "Triple Modular Redundancy (TMR)",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n32",
+      "title": "Why It Works:",
+      "level": 2,
+      "content": "- If A2 fails: V1, V2, V3 get 2 good + 1 bad\n- Each voter outputs correct value\n- Failure is completely masked",
+      "summary": "- If A2 fails: V1, V2, V3 get 2 good + 1 bad - Each voter outputs correct value - Failure is completely masked",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n33",
+      "title": "How TMR Works:",
+      "level": 2,
+      "content": "- Each device replicated 3 times\n- Voters after each stage\n- 3 inputs → 1 output\n- Majority vote wins\n- Key Benefit: A faulty voter is no different from a faulty component, both are voted down by subsequent stages",
+      "summary": "- Each device replicated 3 times - Voters after each stage - 3 inputs → 1 output - Majority vote wins - Key Benefit: A faulty voter is no different from a faulty component, both are voted down by subsequent stages",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n34",
+      "title": "Process Groups: The Key Abstraction",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n35",
+      "title": "Definition",
+      "level": 2,
+      "content": "'When a message is sent to the group itself, all members of the group receive it .'",
+      "summary": "'When a message is sent to the group itself, all members of the group receive it .'",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n36",
+      "title": "Purpose:",
+      "level": 2,
+      "content": "- Process P sends to group Q = { Q 1 , ., Q N }\n- P doesn't need to know:\n- Who they are\n- How many there are\n- Where they are located\n- Group Q appears as single logical process",
+      "summary": "- Process P sends to group Q = { Q 1 , ., Q N } - P doesn't need to know: - Who they are - How many there are - Where they are located - Group Q appears as single logical process",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n37",
+      "title": "Flat vs. Hierarchical Groups",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n38",
+      "title": "Hierarchical Group",
+      "level": 2,
+      "content": "- One coordinator + workers\n- + Fast decision making\n- + Less communication\n- -Single point of failure\n- -If coordinator crashes, group halts",
+      "summary": "- One coordinator + workers - + Fast decision making - + Less communication - -Single point of failure - -If coordinator crashes, group halts",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n39",
+      "title": "Flat Group",
+      "level": 2,
+      "content": "- All processes equal\n- + No single point of failure\n- + If one crashes, group continues\n- -Decisions require voting\n- -More overhead",
+      "summary": "- All processes equal - + No single point of failure - + If one crashes, group continues - -Decisions require voting - -More overhead",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n40",
+      "title": "How Much Replication is Needed?",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n41",
+      "title": "For k-fault tolerance:",
+      "level": 2,
+      "content": "| Failure Type | Processes Needed | Reason |\n|-----------------------|--------------------|------------------------------|\n| Silent (crash) | k + 1 | If k stop, one still answers |\n| Arbitrary (Byzantine) | 2k + 1 | Need k+1 correct majority |\n\nByzantine Failures\n\nk\n\n= 2 ⇒ 5 servers",
+      "summary": "| Failure Type | Processes Needed | Reason | |-----------------------|--------------------|------------------------------| | Silent (crash) | k + 1 | If k stop, one still answers | | Arbitrary (Byzantine) | 2k + 1 | Need...",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n42",
+      "title": "Consensus: The Core Problem",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n43",
+      "title": "Fundamental Requirement",
+      "level": 2,
+      "content": "'In a fault-tolerant process group, each nonfaulty process executes the same commands , in the same order , as every other nonfaulty process.'",
+      "summary": "'In a fault-tolerant process group, each nonfaulty process executes the same commands , in the same order , as every other nonfaulty process.'",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n44",
+      "title": "Why Consensus is Hard:",
+      "level": 2,
+      "content": "- Without failures → easy\n- With failures → tricky!\n- Cannot distinguish slow from crashed\n- Messages may be lost\n\nAll must agree on operation order!",
+      "summary": "- Without failures → easy - With failures → tricky! - Cannot distinguish slow from crashed - Messages may be lost All must agree on operation order!",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n45",
+      "title": "Flooding-Based Consensus",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n46",
+      "title": "Algorithm (assuming fail-stop):",
+      "level": 2,
+      "content": "- 1 Each process maintains list of proposed commands\n- 2 In each round: send list to all other processes\n- 3 End of round: merge all received lists\n- 4 Deterministically select command to execute\n- Key Insight: If all have same list → all select same command (Selection algorithm must be identical for all processes)",
+      "summary": "- 1 Each process maintains list of proposed commands - 2 In each round: send list to all other processes - 3 End of round: merge all received lists - 4 Deterministically select command to execute - Key Insight: If all ha...",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n47",
+      "title": "Raft: A Practical Consensus Protocol",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n48",
+      "title": "Why Raft?",
+      "level": 2,
+      "content": "- Reaction to Paxos complexity\n- Designed for understandability\n- Primary-backup protocol",
+      "summary": "- Reaction to Paxos complexity - Designed for understandability - Primary-backup protocol",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n49",
+      "title": "Key Components:",
+      "level": 2,
+      "content": "- Group of ∼ 5 replicated servers\n- Each maintains a log of operations\n- One server is leader\n- Leader decides operation order\n\nLeader's log = collective state of server group\n\nLog Replication",
+      "summary": "- Group of ∼ 5 replicated servers - Each maintains a log of operations - One server is leader - Leader decides operation order Leader's log = collective state of server group Log Replication",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n50",
+      "title": "Raft: Normal Operation",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n51",
+      "title": "Step-by-Step:",
+      "level": 2,
+      "content": "- 1 Client sends request to leader\n- 2 Leader appends ⟨ op, term, index ⟩ to log\n- 3 Leader sends log entry to followers\n- 4 Followers copy, send ACK\n- 5 Majority ACK → leader commits\n- 6 Leader responds to client\n\nCommit condition: Majority acknowledgment ensures consensus",
+      "summary": "- 1 Client sends request to leader - 2 Leader appends ⟨ op, term, index ⟩ to log - 3 Leader sends log entry to followers - 4 Followers copy, send ACK - 5 Majority ACK → leader commits - 6 Leader responds to client Commit...",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n52",
+      "title": "Raft: Handling Leader Crash",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n53",
+      "title": "Edge Case:",
+      "level": 2,
+      "content": "- Leader crashed after executing\n- But before informing followers\n- Solution: New leader handles old operation when processing new one",
+      "summary": "- Leader crashed after executing - But before informing followers - Solution: New leader handles old operation when processing new one",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n54",
+      "title": "When Leader Crashes:",
+      "level": 2,
+      "content": "- 1 New leader elected\n- 2 New leader's log becomes state\n- 3 Server won't vote for candidate with less up-to-date log\n\nNew leader's log is at least subset of majority's logs (otherwise wouldn't be elected)",
+      "summary": "- 1 New leader elected - 2 New leader's log becomes state - 3 Server won't vote for candidate with less up-to-date log New leader's log is at least subset of majority's logs (otherwise wouldn't be elected)",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n55",
+      "title": "Paxos: Overview",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n56",
+      "title": "Historical Note:",
+      "level": 2,
+      "content": "- Published 1989 by Leslie Lamport\n- Took ∼ decade to be recognized\n- 'Difficult to explain and understand'\n- Implementations often differ",
+      "summary": "- Published 1989 by Leslie Lamport - Took ∼ decade to be recognized - 'Difficult to explain and understand' - Implementations often differ",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n57",
+      "title": "Assumptions:",
+      "level": 2,
+      "content": "- Partially synchronous system\n- Messages may be lost, duplicated, reordered\n- Corrupted messages detectable\n- Crash failures only (not Byzantine)",
+      "summary": "- Partially synchronous system - Messages may be lost, duplicated, reordered - Corrupted messages detectable - Crash failures only (not Byzantine)",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n58",
+      "title": "Phase 1: Prepare &amp; Promise",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n59",
+      "title": "1a (Prepare):",
+      "level": 2,
+      "content": "- Proposer selects number m\n- Creates timestamp t = (m, i)\n- Sends prepare(t) to acceptors",
+      "summary": "- Proposer selects number m - Creates timestamp t = (m, i) - Sends prepare(t) to acceptors",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n60",
+      "title": "1b (Promise):",
+      "level": 2,
+      "content": "- If t is highest: return promise(t)\n- If proposal accepted: return it too\n- Otherwise: do nothing",
+      "summary": "- If t is highest: return promise(t) - If proposal accepted: return it too - Otherwise: do nothing",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n61",
+      "title": "Phase 2: Accept &amp; Learn",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n62",
+      "title": "2a (Accept):",
+      "level": 2,
+      "content": "- No accepted op received: send own\n- Otherwise: adopt highest timestamp op",
+      "summary": "- No accepted op received: send own - Otherwise: adopt highest timestamp op",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n63",
+      "title": "2b (Learn):",
+      "level": 2,
+      "content": "- Acceptor accepts if no higher promise\n- Sends learn(o) to learners\n- Learner executes when majority confirms\n\nKey: Multiple proposals may be accepted, but all with same operation",
+      "summary": "- Acceptor accepts if no higher promise - Sends learn(o) to learners - Learner executes when majority confirms Key: Multiple proposals may be accepted, but all with same operation",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n64",
+      "title": "Why 3k+1 for Byzantine Failures?",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n65",
+      "title": "With 3 processes (k=1):",
+      "level": 2,
+      "content": "- Faulty primary sends T to B1, F to B2\n- Each backup receives { T, F }\n- Cannot decide!",
+      "summary": "- Faulty primary sends T to B1, F to B2 - Each backup receives { T, F } - Cannot decide!",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n66",
+      "title": "Or faulty backup forwards wrong value:",
+      "level": 2,
+      "content": "- Same result\n- Cannot distinguish correct from incorrect\n\nConclusion: 3 processes insufficient for 1 Byzantine failure",
+      "summary": "- Same result - Cannot distinguish correct from incorrect Conclusion: 3 processes insufficient for 1 Byzantine failure",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n67",
+      "title": "Byzantine Agreement with 4 Processes",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n68",
+      "title": "Requirements:",
+      "level": 2,
+      "content": "- BA1: Every nonfaulty backup stores same value\n- BA2: If primary nonfaulty, backups store what primary sent",
+      "summary": "- BA1: Every nonfaulty backup stores same value - BA2: If primary nonfaulty, backups store what primary sent",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n69",
+      "title": "With 4 processes (k=1):",
+      "level": 2,
+      "content": "- Even if primary sends inconsistent values\n- After forwarding: each has { T, T, F }\n- Majority vote works!\n\nAll agree on T (majority)",
+      "summary": "- Even if primary sends inconsistent values - After forwarding: each has { T, T, F } - Majority vote works! All agree on T (majority)",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n70",
+      "title": "PBFT: Practical Byzantine Fault Tolerance",
+      "level": 2,
+      "content": "",
+      "summary": "",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n71",
+      "title": "Key Achievement:",
+      "level": 2,
+      "content": "- Combines safety, liveness, performance\n- Uses 3k + 1 replica servers\n- Developed by Castro &amp; Liskov (2002)",
+      "summary": "- Combines safety, liveness, performance - Uses 3k + 1 replica servers - Developed by Castro &amp; Liskov (2002)",
+      "parent_id": null,
+      "children": []
+    },
+    {
+      "node_id": "DS_2026_Lecture_8_Fault_Tolerance_Saeid_n72",
+      "title": "Assumptions:",
+      "level": 2,
+      "content": "- No assumptions about faulty behavior\n- Messages may be lost, delayed, reordered\n- Message sender identifiable (signatures)",
+      "summary": "- No assumptions about faulty behavior - Messages may be lost, delayed, reordered - Message sender identifiable (signatures)",
+      "parent_id": null,
+      "children": []
+    }
+  ]
+}

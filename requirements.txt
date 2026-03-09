@@ -1,0 +1,16 @@
+docling
+qdrant-client
+sentence-transformers
+ollama
+streamlit
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+orjson
+numpy
+pandas
+tqdm
+tenacity
+
+ragas
